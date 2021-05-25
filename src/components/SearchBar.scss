@@ -1,0 +1,256 @@
+.searchBar {
+  background-color: rgba(0, 0, 0, 0);
+  // color: black;
+  border: none;
+  outline: none;
+  height: 30px;
+  transition: height 1s;
+  -webkit-transition: height 1s;
+  margin-left: 5px;
+  &__basic {
+    width: 75%;
+    font-size: 14px;
+  }
+  &__location {
+    width: 60%;
+    font-size: 14px;
+  }
+  &__first {
+    padding: 16px;
+    padding-left: 25px;
+    text-align: left;
+  }
+  &__second {
+    padding: 16px;
+    padding-left: 25px;
+    text-align: left;
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+    &-modal {
+      display: none;
+      padding-left: 0;
+      @media only screen and (max-width: 768px) {
+        display: block;
+      }
+    }
+  }
+  &__theme {
+    height: 75px;
+    min-width: 350px;
+    margin: -30px 150px 20px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    &-light {
+      background-color: white;
+      border: 1px solid white;
+    }
+    &-dark {
+      background-color: #19212d;
+      border: 1px solid #19212d;
+    }
+  }
+  &__breakline-light {
+    background-color: #e6e5e5;
+    margin: 3px 0px 7px 0px;
+  }
+  &__breakline-dark {
+    background-color: rgb(56, 56, 56);
+    margin: 3px 0px 7px 0px;
+  }
+  &__icons {
+    color: #5865e0;
+    margin-right: 5px;
+  }
+  &__search-icon {
+    display: none;
+    @media only screen and (max-width: 768px) {
+      display: block;
+    }
+  }
+  &__filter-icon {
+    display: none;
+    color: #736e6e;
+    cursor: pointer;
+    margin: auto;
+    @media only screen and (max-width: 950px) {
+      display: block;
+    }
+  }
+  &__search-label {
+    display: block;
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  &__background-first {
+    width: 1px;
+    height: 50px;
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+    &-light {
+      background-color: #e6e5e5;
+    }
+    &-dark {
+      background-color: rgb(56, 56, 56);
+    }
+  }
+  &__background-second {
+    width: 1px;
+    height: 50px;
+    @media only screen and (max-width: 950px) {
+      display: none;
+    }
+    &-light {
+      background-color: #e6e5e5;
+    }
+    &-dark {
+      background-color: rgb(56, 56, 56);
+    }
+  }
+}
+
+.container {
+  display: block;
+  @media only screen and (max-width: 950px) {
+    display: none;
+  }
+  &__modal {
+    @media only screen and (max-width: 950px) {
+      display: block;
+      margin: auto 0;
+    }
+  }
+  position: relative;
+  padding-left: 35px;
+  margin: auto;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &__parent {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    padding: 0px 16px;
+  }
+  &__label {
+    white-space: nowrap;
+    &-light {
+      color: #4e4d4d;
+    }
+    &-dark {
+      color: rgb(243, 242, 242);
+    }
+  }
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    &:checked {
+      ~ {
+        .checkmarkLight {
+          background-color: #2196f3;
+          &:after {
+            display: block;
+          }
+        }
+        .checkmarkDark {
+          background-color: #2196f3;
+          &:after {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  &:hover {
+    input {
+      ~ {
+        .checkmarkLight {
+          background-color: #ccc;
+        }
+        .checkmarkDark {
+          background-color: #ccc;
+        }
+      }
+    }
+  }
+  .checkmarkLight {
+    &:after {
+      left: 6px;
+      top: 3px;
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+  .checkmarkDark {
+    &:after {
+      left: 6px;
+      top: 3px;
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+}
+.checkmarkLight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+}
+.checkmarkDark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: rgb(243, 242, 242);
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+}
+.searchbutton {
+  background-color: #5865e0;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  padding: 10px 13px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  &__modal {
+    margin: auto;
+  }
+}

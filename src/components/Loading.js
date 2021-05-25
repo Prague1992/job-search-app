@@ -1,13 +1,13 @@
-import React from 'react';
-import './Loading.css'
+import React from "react";
+import "./Loading.scss";
 
-const Loading = () => {
-    return (
-        <div>
-            <div class="loader"></div>
-            <div style={{ margin: 'auto', fontSize: '30px', fontWeight: '700', color: '#5865E0' }}>Loading...</div>
-        </div>
-    )
-}
+const Loading = ({ width, height, allowLoadingTag }) => {
+  return (
+    <div>
+      <div className="loading" style={{ width: width, height: height }}></div>
+      <div className="loading__loader">{allowLoadingTag && "Loading..."}</div>
+    </div>
+  );
+};
 
 export default Loading;

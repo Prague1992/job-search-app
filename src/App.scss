@@ -1,0 +1,37 @@
+.app {
+  text-align: center;
+  &__app-light {
+    background-color: #f5f6f8;
+  }
+  &__app-dark {
+    background-color: #131822;
+  }
+  &__job-list {
+    display: grid;
+    min-height: 100vh;
+    &__main {
+      grid-template-rows: 110px 100px auto 100px;
+    }
+    &__details {
+      grid-template-rows: 110px auto;
+    }
+    &__grid {
+      margin: auto;
+      display: grid;
+      grid-template-columns: auto;
+      grid-gap: 20px;
+    }
+  }
+  &__job-list-grid-nolist {
+    margin: 0px 150px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    @media only screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+    @media only screen and (min-width: 768px) and (max-width: 1170px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    grid-gap: 20px;
+  }
+}

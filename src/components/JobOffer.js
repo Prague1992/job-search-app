@@ -1,27 +1,128 @@
-import React from 'react';
-import './JobOffer.css'
+import React, { useEffect } from "react";
+import { Button } from "@material-ui/core";
+import timeAgo from "../utils/timeago";
+import "./JobOffer.scss";
+import {
+  DARK_THEME,
+  LIGHT_THEME,
+  JOB_LIST,
+  JOB_LIST_MAIN,
+  JOB_LIST_GRID_NOLIST,
+} from "../App";
+import Header from "./Header";
+import Loading from "./Loading";
+import SearchBar from "./SearchBar";
 
-const JobOffer = (props) => {
-    const { dark_mode } = props.stateValues;
-    return (
-        <div className={dark_mode ? "jobofferMainDark" : "jobofferMainLight"} onClick={() => props.jobDetailsFlagHandler(props.arrayKey)}>
-            <div style={{ height: '50px', width: '50px', overflow: 'hidden', marginTop: '-15px', marginLeft: '30px' }}>
-                <img src={props.job.company_logo} alt={props.job.company_logo} style={{ maxHeight: '100%', maxWidth: '100%' }} />
-            </div>
-            <div style={{ textAlign: 'left', paddingLeft: '30px', fontSize: '15px', color: 'grey' }}>
-                {`${props.timeAgo} . ${props.job.type}`}
-            </div>
-            <div style={dark_mode ? { textAlign: 'left', paddingLeft: '30px', fontSize: '17px', color: 'white', fontWeight: '700', overflow: 'hidden' } : { textAlign: 'left', paddingLeft: '30px', fontSize: '17px', color: 'black', fontWeight: '700', overflow: 'hidden' }}>
-                {props.job.title}
-            </div>
-            <div style={{ textAlign: 'left', paddingLeft: '30px', fontSize: '16px', color: 'grey' }}>
-                {props.job.company}
-            </div>
-            <div style={{ textAlign: 'left', paddingLeft: '30px', fontSize: '15px', color: '#5865E0', fontWeight: '500' }}>
-                {props.job.location}
-            </div>
-        </div>
-    );
-}
+const JobOffer = ({
+  stateValues,
+  jobDetailsFlagHandler,
+  backToHomeHandler,
+  themeChanger,
+  searchQueryHandler,
+  fullTimeToggle,
+  searchButtonOnClick,
+  loadMoreItems,
+}) => {
+  const { JOBS_ARRAY, dark_mode, fetching_jobs, loading_more } = stateValues;
+  const JO_MAIN = `jobOfferMain`;
+  const JO_MAIN_LIGHT = `${JO_MAIN} ${JO_MAIN}__light`;
+  const JO_MAIN_DARK = `${JO_MAIN} ${JO_MAIN}__dark`;
+
+  useEffect(() => {
+    if (stateValues.JOBS_ARRAY.length) {
+      localStorage.clear();
+      localStorage.setItem("myLocalState", JSON.stringify(stateValues));
+    }
+  }, [stateValues?.JOBS_ARRAY?.length]);
+
+  return (
+    <div
+      className={`${
+        dark_mode ? DARK_THEME : LIGHT_THEME
+      } ${JOB_LIST_MAIN} ${JOB_LIST}`}
+    >
+      <Header
+        backToHomeHandler={backToHomeHandler}
+        themeChanger={themeChanger}
+        dark_mode={dark_mode}
+      />
+      <SearchBar
+        searchQueryHandler={searchQueryHandler}
+        stateValues={stateValues}
+        fullTimeToggle={fullTimeToggle}
+        searchButtonOnClick={searchButtonOnClick}
+      />
+      <div className={`${JOB_LIST_GRID_NOLIST}`}>
+        {JOBS_ARRAY &&
+          JOBS_ARRAY.map((job, index) => {
+            return (
+              <div
+                className={`${dark_mode ? JO_MAIN_DARK : JO_MAIN_LIGHT}`}
+                onClick={() => jobDetailsFlagHandler(index)}
+                key={index}
+                data-testid={`job_offer_${index + 1}`}
+              >
+                <div
+                  className={`${JO_MAIN}__logo`}
+                  style={{
+                    backgroundImage: `url(${job.company_logo})`,
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center center",
+                  }}
+                  data-testid={`logo_${index + 1}`}
+                ></div>
+                <div className={`${JO_MAIN}__timeAgo`}>{`${timeAgo.ago(
+                  job.created_at
+                )} . ${job.type}`}</div>
+                <div
+                  className={`${JO_MAIN}__jobTitle ${
+                    dark_mode
+                      ? `${JO_MAIN}__jobTitle-dark`
+                      : `${JO_MAIN}__jobTitle-light`
+                  }`}
+                  data-testid={`job_title_${index + 1}`}
+                >
+                  {job.title}
+                </div>
+                <div
+                  className={`${JO_MAIN}__label ${JO_MAIN}__label-company`}
+                  data-testid={`company_${index + 1}`}
+                >
+                  {job.company}
+                </div>
+                <div
+                  className={`${JO_MAIN}__label ${JO_MAIN}__label-location`}
+                  data-testid={`job_location_${index + 1}`}
+                >
+                  {job.location}
+                </div>
+              </div>
+            );
+          })}
+      </div>
+      {!fetching_jobs && JOBS_ARRAY.length >= 10 && (
+        <Button
+          onClick={loadMoreItems}
+          className="button"
+          style={{
+            width: "13%",
+            height: "55px",
+            margin: "auto",
+            background: "#5865E0",
+            color: "white",
+          }}
+          data-testid={`load_more_btn`}
+        >
+          {loading_more ? (
+            <Loading width="0px" height="0px" allowLoadingTag={false} />
+          ) : (
+            "Load More"
+          )}
+        </Button>
+      )}
+    </div>
+  );
+};
 
 export default JobOffer;

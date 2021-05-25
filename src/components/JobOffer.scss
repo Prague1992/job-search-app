@@ -1,0 +1,57 @@
+.jobOfferMain {
+  margin: 10px;
+  border-radius: 8px;
+  height: 300px;
+  min-width: 250px;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-rows: 50px 30px 70px 63px 40px;
+  &__light {
+    background-color: white;
+  }
+  &__dark {
+    background-color: #19212d;
+  }
+  &__logo {
+    height: 50px;
+    width: 50px;
+    border-radius: 7px;
+    overflow: hidden;
+    margin-top: -15px;
+    margin-left: 30px;
+  }
+  &__timeAgo {
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 15px;
+    color: grey;
+  }
+  &__jobTitle {
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    overflow: hidden;
+    &-light {
+      color: black;
+    }
+    &-dark {
+      color: white;
+    }
+  }
+  &__label {
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 16px;
+    &-company {
+      color: grey;
+    }
+    &-location {
+      color: #5865e0;
+      font-weight: 500;
+    }
+  }
+}
