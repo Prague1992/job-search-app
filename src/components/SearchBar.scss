@@ -112,6 +112,14 @@
       background-color: rgb(56, 56, 56);
     }
   }
+  &__dialog {
+    &-dark {
+      background: rgb(56, 56, 56);
+    }
+    &-light {
+      background: #e6e5e5;
+    }
+  }
 }
 
 .container {

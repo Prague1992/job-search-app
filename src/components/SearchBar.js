@@ -109,6 +109,12 @@ const SearchBar = ({
         onClose={handleDialogOpen}
         aria-labelledby="simple-dialog-title"
         open={dialogOpen}
+        PaperProps={{
+          style: {
+            backgroundColor: `${dark_mode ? "rgb(56, 56, 56)" : "white"}`,
+            color: `${!dark_mode ? "rgb(56, 56, 56)" : "white"}`,
+          },
+        }}
       >
         <DialogTitle id="simple-dialog-title">Choose Filter</DialogTitle>
         <List>

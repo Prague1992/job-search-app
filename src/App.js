@@ -130,6 +130,12 @@ const App = () => {
 
   const themeChanger = (event) => {
     setJobSearchState({ ...jobSearchState, dark_mode: !dark_mode });
+    if (JSON.parse(localStorage.getItem("myLocalState"))) {
+      const perceivedState = JSON.parse(localStorage.getItem("myLocalState"));
+      perceivedState.dark_mode = !dark_mode;
+      localStorage.clear();
+      localStorage.setItem("myLocalState", JSON.parse(perceivedState));
+    }
   };
 
   const fullTimeToggle = (event) => {
