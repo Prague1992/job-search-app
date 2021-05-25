@@ -13,27 +13,27 @@ import Header from "./Header";
 import Loading from "./Loading";
 import SearchBar from "./SearchBar";
 
-const JobOffer = ({
-  stateValues,
-  jobDetailsFlagHandler,
-  backToHomeHandler,
-  themeChanger,
-  searchQueryHandler,
-  fullTimeToggle,
-  searchButtonOnClick,
-  loadMoreItems,
-}) => {
+const JobOffer = (props) => {
+  const {
+    stateValues,
+    jobDetailsFlagHandler,
+    backToHomeHandler,
+    themeChanger,
+    searchQueryHandler,
+    fullTimeToggle,
+    searchButtonOnClick,
+    loadMoreItems,
+  } = props;
   const { JOBS_ARRAY, dark_mode, fetching_jobs, loading_more } = stateValues;
   const JO_MAIN = `jobOfferMain`;
   const JO_MAIN_LIGHT = `${JO_MAIN} ${JO_MAIN}__light`;
   const JO_MAIN_DARK = `${JO_MAIN} ${JO_MAIN}__dark`;
-
   useEffect(() => {
-    if (stateValues.JOBS_ARRAY.length) {
+    if (props.stateValues.JOBS_ARRAY.length) {
       localStorage.clear();
-      localStorage.setItem("myLocalState", JSON.stringify(stateValues));
+      localStorage.setItem("myLocalState", JSON.stringify(props.stateValues));
     }
-  }, [stateValues?.JOBS_ARRAY?.length]);
+  }, [props.stateValues]);
 
   return (
     <div

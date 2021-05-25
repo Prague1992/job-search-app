@@ -9,10 +9,9 @@ import "./JobDetails.scss";
 const JobDetails = (props) => {
   useEffect(() => {
     localStorage.clear();
-    localStorage.setItem("myLocalState", JSON.stringify(stateValues));
-  }, []);
-  const { stateValues, jobObject, backToHomeHandler, themeChanger, history } =
-    props;
+    localStorage.setItem("myLocalState", JSON.stringify(props.stateValues));
+  }, [props.stateValues]);
+  const { stateValues, jobObject, backToHomeHandler, themeChanger } = props;
   const { dark_mode } = stateValues;
   const {
     company_logo,

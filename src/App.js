@@ -46,7 +46,6 @@ const App = () => {
     JOBS_ARRAY,
     fetching_jobs,
     failed_to_load,
-    loading_more,
     jobDetailsFlag,
     page,
     selectedJob,
@@ -79,7 +78,7 @@ const App = () => {
             lat: position.coords.latitude,
             long: position.coords.longitude,
           });
-          const dataURL = `http://localhost:9000/positions?lat=${position.coords.latitude}&long=${position.coords.longitude}&page=${page}`;
+          const dataURL = `https://job-search-app-server.herokuapp.com/positions?lat=${position.coords.latitude}&long=${position.coords.longitude}&page=${page}`;
           handleApiCall(dataURL);
         },
         (error) => console.log("Error", error),
@@ -99,6 +98,7 @@ const App = () => {
             fetching_jobs: false,
             fetched_jobs: true,
             failed_to_load: false,
+            page: page + 1,
             JOBS_ARRAY: [...data],
           });
           history.push("/joboffers");
@@ -152,9 +152,9 @@ const App = () => {
       failed_to_load: false,
     });
     if (search || location || full_time) {
-      URL = `http://localhost:9000/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
+      URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
-      URL = `http://localhost:9000/positions?page=${page}`;
+      URL = `https://job-search-app-server.herokuapp.com/positions?page=${page}`;
     }
     handleApiCall(URL);
   };
@@ -186,12 +186,11 @@ const App = () => {
     setJobSearchState({
       ...jobSearchState,
       loading_more: true,
-      page: jobSearchState.page + 1,
     });
     if (search || location || full_time) {
-      URL = `http://localhost:9000/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
+      URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
-      URL = `http://localhost:9000/positions?page=${page}`;
+      URL = `https://job-search-app-server.herokuapp.com/positions?page=${page}`;
     }
     axios.get(URL).then(({ data }) => {
       if (data.length > 0) {
@@ -199,6 +198,7 @@ const App = () => {
           ...jobSearchState,
           loading_more: false,
           loaded_more: true,
+          page: page + 1,
           JOBS_ARRAY: [...JOBS_ARRAY, ...data],
         });
       }
