@@ -84,7 +84,7 @@ const App = () => {
       );
       return;
     }
-    if (JSON.parse(localStorage.getItem("myLocalState")).JOBS_ARRAY.length) {
+    if (JSON.parse(localStorage.getItem("myLocalState"))?.JOBS_ARRAY?.length) {
       history.push("/joboffers");
     }
   }, []);

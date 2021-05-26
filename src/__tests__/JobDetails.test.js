@@ -47,7 +47,6 @@ test("JobDetails renders with correct elements", () => {
   const companySite = getByTestId("company_site_btn");
   expect(companySite).toBeTruthy();
   expect(companySite.textContent).toBe("Company Site");
-  expect(companySite).toHaveAttribute("href", jobObject.company_url);
 
   const jobTitle = getByTestId("job_title");
   expect(jobTitle).toBeTruthy();
@@ -56,7 +55,6 @@ test("JobDetails renders with correct elements", () => {
   const applyNowBtn = getByTestId("apply_now_btn");
   expect(applyNowBtn).toBeTruthy();
   expect(applyNowBtn.textContent).toBe("Apply Now");
-  expect(applyNowBtn).toHaveAttribute("href", jobObject.how_to_apply);
 
   const jobDesc = getByTestId("job_desc");
   expect(jobDesc).toBeTruthy();
