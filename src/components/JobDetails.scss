@@ -11,6 +11,9 @@
   &__info {
     min-width: 250px;
     margin: -18px 150px 0px;
+    @media only screen and (max-width: 500px) {
+      margin: -18px 50px 0px;
+    }
     @media only screen and (max-width: 900px) {
       display: flex;
       flex-direction: column;
