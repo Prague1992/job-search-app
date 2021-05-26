@@ -23,6 +23,7 @@ const JobDetails = (props) => {
     location,
     how_to_apply,
     description,
+    url,
   } = jobObject;
   const JD_MAIN = `jobDetails`;
   const JD_COMPANY_LIGHT = `${JD_MAIN}__company-info ${JD_MAIN}__company-info-light`;
@@ -69,7 +70,9 @@ const JobDetails = (props) => {
             </div>
             <div style={{ margin: "auto" }}>
               <Button
-                href={company_url}
+                onClick={() => {
+                  window.open(company_url, "_blank");
+                }}
                 color="primary"
                 class={`${JD_MAIN}__button ${JD_MAIN}__button-companyButton`}
                 data-testid="company_site_btn"
@@ -104,7 +107,7 @@ const JobDetails = (props) => {
               </div>
               <div className={`${JD_MAIN}__details-button`}>
                 <Button
-                  href={how_to_apply}
+                  onClick={() => window.open(url, "_blank")}
                   color="primary"
                   class={`${JD_MAIN}__button ${JD_MAIN}__button-applyButton`}
                   data-testid="apply_now_btn"
@@ -155,7 +158,7 @@ const JobDetails = (props) => {
             </div>
             <div className={`${JD_MAIN}__details-button`}>
               <Button
-                href={how_to_apply}
+                onClick={() => window.open(url, "_blank")}
                 color="primary"
                 class={`${JD_MAIN}__button ${JD_MAIN}__button-applyButton`}
               >

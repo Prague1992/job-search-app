@@ -45,6 +45,7 @@ const App = () => {
     full_time,
     JOBS_ARRAY,
     fetching_jobs,
+    fetched_jobs,
     failed_to_load,
     jobDetailsFlag,
     page,
@@ -55,17 +56,6 @@ const App = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // if (JSON.parse(localStorage.getItem("myLocalState"))) {
-    //   const perceivedState = JSON.parse(localStorage.getItem("myLocalState"));
-    //   console.log("perceivedState", perceivedState);
-    //   setJobSearchState({
-    //     ...perceivedState,
-    //   });
-    //   if (perceivedState?.JOBS_ARRAY.length) {
-    //     history.push("/joboffers");
-    //     return;
-    //   }
-    // }
     if (
       !JSON.parse(localStorage.getItem("myLocalState")) &&
       navigator.geolocation
@@ -73,18 +63,29 @@ const App = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           console.log(position.coords);
-          setJobSearchState({
-            ...jobSearchState,
+          setJobSearchState((prevState) => ({
+            ...prevState,
             lat: position.coords.latitude,
             long: position.coords.longitude,
-          });
+          }));
           const dataURL = `https://job-search-app-server.herokuapp.com/positions?lat=${position.coords.latitude}&long=${position.coords.longitude}&page=${page}`;
           handleApiCall(dataURL);
         },
-        (error) => console.log("Error", error),
+        (error) => {
+          console.log("Error", error);
+          setJobSearchState((prevState) => ({
+            ...prevState,
+            fetching_jobs: false,
+            fetched_jobs: false,
+            failed_to_load: true,
+          }));
+        },
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
       return;
+    }
+    if (JSON.parse(localStorage.getItem("myLocalState")).JOBS_ARRAY.length) {
+      history.push("/joboffers");
     }
   }, []);
 
@@ -106,7 +107,7 @@ const App = () => {
           setJobSearchState({
             ...jobSearchState,
             fetching_jobs: false,
-            fetched_jobs: true,
+            fetched_jobs: false,
             failed_to_load: false,
             JOBS_ARRAY: [],
           });
@@ -116,6 +117,7 @@ const App = () => {
         setJobSearchState({
           ...jobSearchState,
           fetching_jobs: false,
+          fetched_jobs: false,
           failed_to_load: true,
         });
       });
@@ -237,7 +239,11 @@ const App = () => {
               <Loading width="120px" height="120px" allowLoadingTag={true} />
             )}
             {((failed_to_load && !fetching_jobs) ||
-              (!fetching_jobs && !JOBS_ARRAY.length)) && <NotFound />}
+              (!fetching_jobs && !JOBS_ARRAY.length) ||
+              (!fetching_jobs &&
+                !fetched_jobs &&
+                !failed_to_load &&
+                !JOBS_ARRAY.length)) && <NotFound />}
           </div>
         </div>
       </Route>
