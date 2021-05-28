@@ -62,7 +62,6 @@ const App = () => {
     ) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position.coords);
           setJobSearchState((prevState) => ({
             ...prevState,
             lat: position.coords.latitude,
@@ -72,7 +71,6 @@ const App = () => {
           handleApiCall(dataURL);
         },
         (error) => {
-          console.log("Error", error);
           setJobSearchState((prevState) => ({
             ...prevState,
             fetching_jobs: false,
@@ -94,44 +92,44 @@ const App = () => {
       .get(dataURL)
       .then(({ data }) => {
         if (data.length > 0) {
-          setJobSearchState({
-            ...jobSearchState,
+          setJobSearchState((prevState) => ({
+            ...prevState,
             fetching_jobs: false,
             fetched_jobs: true,
             failed_to_load: false,
             page: page + 1,
             JOBS_ARRAY: [...data],
-          });
+          }));
           history.push("/joboffers");
         } else {
-          setJobSearchState({
-            ...jobSearchState,
+          setJobSearchState((prevState) => ({
+            ...prevState,
             fetching_jobs: false,
             fetched_jobs: false,
             failed_to_load: false,
             JOBS_ARRAY: [],
-          });
+          }));
         }
       })
       .catch(() => {
-        setJobSearchState({
-          ...jobSearchState,
+        setJobSearchState((prevState) => ({
+          ...prevState,
           fetching_jobs: false,
           fetched_jobs: false,
           failed_to_load: true,
-        });
+        }));
       });
   };
 
   const searchQueryHandler = (event) => {
-    setJobSearchState({
-      ...jobSearchState,
+    setJobSearchState((prevState) => ({
+      ...prevState,
       [event.target.name]: event.target.value,
-    });
+    }));
   };
 
-  const themeChanger = (event) => {
-    setJobSearchState({ ...jobSearchState, dark_mode: !dark_mode });
+  const themeChanger = () => {
+    setJobSearchState((prevState) => ({ ...prevState, dark_mode: !dark_mode }));
     if (JSON.parse(localStorage.getItem("myLocalState"))) {
       const perceivedState = JSON.parse(localStorage.getItem("myLocalState"));
       perceivedState.dark_mode = !dark_mode;
@@ -140,19 +138,19 @@ const App = () => {
     }
   };
 
-  const fullTimeToggle = (event) => {
-    setJobSearchState({ ...jobSearchState, full_time: !full_time });
+  const fullTimeToggle = () => {
+    setJobSearchState((prevState) => ({ ...prevState, full_time: !full_time }));
   };
 
   const searchButtonOnClick = () => {
     history.push("/");
     let URL = "";
-    setJobSearchState({
-      ...jobSearchState,
+    setJobSearchState((prevState) => ({
+      ...prevState,
       JOBS_ARRAY: [],
       fetching_jobs: true,
       failed_to_load: false,
-    });
+    }));
     if (search || location || full_time) {
       URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
@@ -162,21 +160,21 @@ const App = () => {
   };
 
   const jobDetailsFlagHandler = (key) => {
-    setJobSearchState({
-      ...jobSearchState,
+    setJobSearchState((prevState) => ({
+      ...prevState,
       jobDetailsFlag: !jobDetailsFlag,
       selectedJob: key,
-    });
+    }));
     history.push("/jobdetails");
   };
 
   const backToHomeHandler = () => {
     if (jobDetailsFlag) {
-      setJobSearchState({
-        ...jobSearchState,
+      setJobSearchState((prevState) => ({
+        ...prevState,
         jobDetailsFlag: false,
         selectedJob: 0,
-      });
+      }));
     }
     if (JOBS_ARRAY?.length) {
       history.push("/joboffers");
@@ -185,10 +183,10 @@ const App = () => {
 
   const loadMoreItems = () => {
     let URL = "";
-    setJobSearchState({
-      ...jobSearchState,
+    setJobSearchState((prevState) => ({
+      ...prevState,
       loading_more: true,
-    });
+    }));
     if (search || location || full_time) {
       URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
@@ -196,13 +194,13 @@ const App = () => {
     }
     axios.get(URL).then(({ data }) => {
       if (data.length > 0) {
-        setJobSearchState({
-          ...jobSearchState,
+        setJobSearchState((prevState) => ({
+          ...prevState,
           loading_more: false,
           loaded_more: true,
           page: page + 1,
           JOBS_ARRAY: [...JOBS_ARRAY, ...data],
-        });
+        }));
       }
     });
   };

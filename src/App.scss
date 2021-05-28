@@ -9,6 +9,7 @@
   &__job-list {
     display: grid;
     min-height: 100vh;
+    min-width: 100vw;
     width: fit-content;
     &__main {
       grid-template-rows: 110px 100px auto 100px;
