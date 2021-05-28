@@ -62,21 +62,22 @@ const App = () => {
     ) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setJobSearchState((prevState) => ({
-            ...prevState,
+          setJobSearchState({
+            ...jobSearchState,
+            fetching_jobs: true,
             lat: position.coords.latitude,
             long: position.coords.longitude,
-          }));
+          });
           const dataURL = `https://job-search-app-server.herokuapp.com/positions?lat=${position.coords.latitude}&long=${position.coords.longitude}&page=${page}`;
           handleApiCall(dataURL);
         },
         (error) => {
-          setJobSearchState((prevState) => ({
-            ...prevState,
+          setJobSearchState({
+            ...jobSearchState,
             fetching_jobs: false,
             fetched_jobs: false,
             failed_to_load: true,
-          }));
+          });
         },
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
@@ -92,44 +93,44 @@ const App = () => {
       .get(dataURL)
       .then(({ data }) => {
         if (data.length > 0) {
-          setJobSearchState((prevState) => ({
-            ...prevState,
+          setJobSearchState({
+            ...jobSearchState,
             fetching_jobs: false,
             fetched_jobs: true,
             failed_to_load: false,
             page: page + 1,
             JOBS_ARRAY: [...data],
-          }));
+          });
           history.push("/joboffers");
         } else {
-          setJobSearchState((prevState) => ({
-            ...prevState,
+          setJobSearchState({
+            ...jobSearchState,
             fetching_jobs: false,
             fetched_jobs: false,
             failed_to_load: false,
             JOBS_ARRAY: [],
-          }));
+          });
         }
       })
       .catch(() => {
-        setJobSearchState((prevState) => ({
-          ...prevState,
+        setJobSearchState({
+          ...jobSearchState,
           fetching_jobs: false,
           fetched_jobs: false,
           failed_to_load: true,
-        }));
+        });
       });
   };
 
   const searchQueryHandler = (event) => {
-    setJobSearchState((prevState) => ({
-      ...prevState,
+    setJobSearchState({
+      ...jobSearchState,
       [event.target.name]: event.target.value,
-    }));
+    });
   };
 
   const themeChanger = () => {
-    setJobSearchState((prevState) => ({ ...prevState, dark_mode: !dark_mode }));
+    setJobSearchState({ ...jobSearchState, dark_mode: !dark_mode });
     if (JSON.parse(localStorage.getItem("myLocalState"))) {
       const perceivedState = JSON.parse(localStorage.getItem("myLocalState"));
       perceivedState.dark_mode = !dark_mode;
@@ -139,18 +140,18 @@ const App = () => {
   };
 
   const fullTimeToggle = () => {
-    setJobSearchState((prevState) => ({ ...prevState, full_time: !full_time }));
+    setJobSearchState({ ...jobSearchState, full_time: !full_time });
   };
 
   const searchButtonOnClick = () => {
     history.push("/");
     let URL = "";
-    setJobSearchState((prevState) => ({
-      ...prevState,
+    setJobSearchState({
+      ...jobSearchState,
       JOBS_ARRAY: [],
       fetching_jobs: true,
       failed_to_load: false,
-    }));
+    });
     if (search || location || full_time) {
       URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
@@ -160,21 +161,21 @@ const App = () => {
   };
 
   const jobDetailsFlagHandler = (key) => {
-    setJobSearchState((prevState) => ({
-      ...prevState,
+    setJobSearchState({
+      ...jobSearchState,
       jobDetailsFlag: !jobDetailsFlag,
       selectedJob: key,
-    }));
+    });
     history.push("/jobdetails");
   };
 
   const backToHomeHandler = () => {
     if (jobDetailsFlag) {
-      setJobSearchState((prevState) => ({
-        ...prevState,
+      setJobSearchState({
+        ...jobSearchState,
         jobDetailsFlag: false,
         selectedJob: 0,
-      }));
+      });
     }
     if (JOBS_ARRAY?.length) {
       history.push("/joboffers");
@@ -183,10 +184,10 @@ const App = () => {
 
   const loadMoreItems = () => {
     let URL = "";
-    setJobSearchState((prevState) => ({
-      ...prevState,
+    setJobSearchState({
+      ...jobSearchState,
       loading_more: true,
-    }));
+    });
     if (search || location || full_time) {
       URL = `https://job-search-app-server.herokuapp.com/positions?search=${search}&full_time=${full_time}&location=${location}&page=${page}`;
     } else {
@@ -194,13 +195,13 @@ const App = () => {
     }
     axios.get(URL).then(({ data }) => {
       if (data.length > 0) {
-        setJobSearchState((prevState) => ({
-          ...prevState,
+        setJobSearchState({
+          ...jobSearchState,
           loading_more: false,
           loaded_more: true,
           page: page + 1,
           JOBS_ARRAY: [...JOBS_ARRAY, ...data],
-        }));
+        });
       }
     });
   };
